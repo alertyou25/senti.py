@@ -15,7 +15,7 @@ def home():
         # Convert to percentage
         sentiment_percentage = polarity * 100
         # Display the text and its sentiment percentage on the homepage
-        return f"Text: '{text}' <br> Sentiment: {sentiment_percentage}%"
+        return f"Text: '{text}' <br> Risk-o-Meter: {sentiment_percentage}%"
     
     # If no text is provided, display the instructions
     return "API is working. Add '?text=your-text' to the URL for sentiment analysis."
