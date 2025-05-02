@@ -16,7 +16,7 @@ def home():
         risk_score = 0
         for word in RISK_KEYWORDS:
             if word in text:
-                risk_score += 5
+                risk_score += 2
 
         # Normalize risk to a percentage (adjust max risk as needed)
         max_risk = len(RISK_KEYWORDS)
