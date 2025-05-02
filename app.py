@@ -5,7 +5,7 @@ app = Flask(__name__)
 # List of high-risk keywords commonly found in phishing/scam messages
 RISK_KEYWORDS = [
     "urgent", "immediate", "required", "suspicious", "lock", "confirm",
-    "security code", "failure", "suspension", "legal", "warning"
+    "security code", "failure", "suspension", "legal", "warning", "transfer", "account", "permanent"
 ]
 
 @app.route("/")
@@ -16,7 +16,7 @@ def home():
         risk_score = 0
         for word in RISK_KEYWORDS:
             if word in text:
-                risk_score += 1
+                risk_score += 5
 
         # Normalize risk to a percentage (adjust max risk as needed)
         max_risk = len(RISK_KEYWORDS)
