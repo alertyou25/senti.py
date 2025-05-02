@@ -1,23 +1,30 @@
 from flask import Flask, request, jsonify
-from textblob import TextBlob
 
 app = Flask(__name__)
 
+# List of high-risk keywords commonly found in phishing/scam messages
+RISK_KEYWORDS = [
+    "urgent", "immediate", "required", "suspicious", "lock", "confirm",
+    "security code", "failure", "suspension", "legal", "warning"
+]
+
 @app.route("/")
 def home():
-    # Get text from URL query parameter
-    text = request.args.get("text", "")
+    text = request.args.get("text", "").lower()
     
     if text:
-        # Analyze sentiment
-        blob = TextBlob(text)
-        polarity = blob.sentiment.polarity
-        # Convert to percentage
-        sentiment_percentage = polarity * 100
-        # Display the text and its sentiment percentage on the homepage
-        return f"Text: '{text}' <br> RiskOmeter: {sentiment_percentage}%"
+        risk_score = 0
+        for word in RISK_KEYWORDS:
+            if word in text:
+                risk_score += 1
+
+        # Normalize risk to a percentage (adjust max risk as needed)
+        max_risk = len(RISK_KEYWORDS)
+        risk_percentage = (risk_score / max_risk) * 100
+        risk_percentage = round(risk_percentage, 2)
+
+        return f"Text: '{text}' <br> RiskOmeter: {risk_percentage}%"
     
-    # If no text is provided, display the instructions
     return "API is working. Add '?text=your-text' to the URL for sentiment analysis."
 
 if __name__ == "__main__":
